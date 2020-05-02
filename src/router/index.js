@@ -2,47 +2,40 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 
-
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'Home',
+    props: true,
     component: Home,
   },
   {
     path: '/about',
     name: 'About',
+
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
-    path: '/brazil',
-    name: 'Brazil',
-    component: () => import(/* webpackChunkName: "brazil" */ '../views/Brazil'),
-  },
-  {
-    path: '/hawaii',
-    name: 'Hawaii',
-    component: () => import(/* webpackChunkName: "hawaii" */ '../views/Hawaii'),
-  },
-  {
-    path: '/panama',
-    name: 'Panama',
-    component: () => import(/* webpackChunkName: "panama" */ '../views/Panama'),
-  },
-  {
-    path: '/jamaica',
-    name: 'Jamaica',
-    component: () => import(/* webpackChunkName: "jamaica" */ '../views/Jamaica'),
-  },
-  {
     path: '/details/:id',
     name: 'DestinationDetails',
-    component: () => import(/* webpackChunkName: "destination-details" */ '../views/DestinationDetails'),
+    props: true,
+    component: () =>
+      // eslint-disable-next-line implicit-arrow-linebreak
+      import(/* webpackChunkName: "destination-details" */ '../views/DestinationDetails'),
+    children: [
+      {
+        path: ':experienceSlug',
+        name: 'ExperienceDetails',
+        component: () =>
+          // eslint-disable-next-line implicit-arrow-linebreak
+          import(/* webpackChunkName: "experience-details" */ '../views/ExperienceDetails'),
+      },
+    ],
   },
 ];
 
